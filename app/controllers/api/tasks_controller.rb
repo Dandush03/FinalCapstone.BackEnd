@@ -13,6 +13,7 @@ module Api
       search_active = current_user.tasks.where(end: nil).first
       task = current_user.tasks.new(permitted_create_params)
       task.save if search_active.nil?
+      render json: nil, status: :ok
     end
 
     def update

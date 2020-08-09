@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     get '/searcher/by_category_date', to: 'tasks#search_by_category'
 
     namespace :auth do
+      get '/', to: 'authentication#authorize'
       post '/login', to: 'authentication#authenticate'
       post '/signup', to: 'authentication#create'
     end

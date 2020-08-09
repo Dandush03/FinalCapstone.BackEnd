@@ -4,7 +4,7 @@ module Api
   module Auth
     # Authentication Controller
     class AuthenticationController < ApplicationController
-      skip_before_action :authorize_request, only: [:authenticate, :create]
+      skip_before_action :authorize_request, only: %i[authenticate create]
       def create
         user = User.create!(user_params)
         auth_token = AuthenticateUser.new(user.email, user.password).call
@@ -15,7 +15,11 @@ module Api
       def authenticate
         auth_token =
           AuthenticateUser.new(auth_params[:login], auth_params[:password]).call
-        render json: {auth_token: auth_token}
+        render json: { auth_token: auth_token }
+      end
+
+      def authorize
+        render json: nil, status: :ok
       end
 
       private
