@@ -1,12 +1,10 @@
-# frozen_string_literal: true
-
 # Task Model
 class Task < ApplicationRecord
   belongs_to :category
   belongs_to :user
 
   before_save :task_create
-  before_update :task_close  
+  before_update :task_close
 
   validates :name, presence: true, length: { maximum: 30 }
   validates :description, length: { maximum: 255 }

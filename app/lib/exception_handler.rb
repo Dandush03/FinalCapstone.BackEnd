@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Handle Auth Exception
 module ExceptionHandler
   extend ActiveSupport::Concern

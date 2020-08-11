@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Authenticate User by JWT
 class AuthenticateUser
   def initialize(login, password)

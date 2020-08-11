@@ -1,6 +1,3 @@
-# frozen_string_literal: true
-
-# rubocop: disable Metrics/BlockLength
 require 'rails_helper'
 
 RSpec.describe 'Authentication', type: :request do
@@ -96,4 +93,3 @@ RSpec.describe 'Authentication', type: :request do
     # rubocop: enable Layout/LineLength
   end
 end
-# rubocop: enable Metrics/BlockLength

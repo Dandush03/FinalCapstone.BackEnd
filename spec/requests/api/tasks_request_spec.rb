@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'rails_helper'
 
 RSpec.describe 'API Task', type: :request do
@@ -69,11 +67,11 @@ RSpec.describe 'API Task', type: :request do
       before do
         get '/api/searcher', params: {}, headers: headers
       end
-  
+
       it 'returns http success' do
         expect(response).to have_http_status(:success)
       end
-  
+
       it 'JSON body response contains a Task List' do
         json_response = JSON.parse(response.body)
         expect(json_response.keys).to match_array(
@@ -94,16 +92,16 @@ RSpec.describe 'API Task', type: :request do
         )
       end
     end
-  
+
     context 'GET #searcher with invalid credentials' do
       before do
         get '/api/searcher', params: {}, headers: invalid_headers
       end
-  
+
       it 'returns http invalid credential Msg' do
         expect(json['message']).to match(/Missing token/)
       end
-  
+
       it 'returns http invalid credential Msg' do
         expect(response).to have_http_status(422)
       end
@@ -116,7 +114,7 @@ RSpec.describe 'API Task', type: :request do
       before do
         post '/api/tasks', params: { tasks: task }.to_json, headers: headers
       end
-  
+
       it 'returns http success' do
         expect(response).to have_http_status(:success)
       end
@@ -144,7 +142,7 @@ RSpec.describe 'API Task', type: :request do
         time = time.to_i * 1000
         patch "/api/tasks/#{task.id}", params: { task: { end: time } }.to_json, headers: headers
       end
-  
+
       it 'returns http success' do
         expect(response).to have_http_status(:success)
       end
@@ -165,19 +163,17 @@ RSpec.describe 'API Task', type: :request do
     end
   end
 
-  
-
   describe 'API #seach_by_category' do
     let!(:task) { create_list(:task, 3) }
     context 'GET #search_by_category with valid credentials' do
       before do
-        get '/api/searcher/by_category_date', params: {range: '1', category_id: category.id}, headers: headers
+        get '/api/searcher/by_category_date', params: { range: '1', category_id: category.id }, headers: headers
       end
-  
+
       it 'returns http success' do
         expect(response).to have_http_status(:success)
       end
-  
+
       it 'JSON body response contains a Task List' do
         json_response = JSON.parse(response.body)
         expect(json_response[0].keys).to match_array(
@@ -212,6 +208,5 @@ RSpec.describe 'API Task', type: :request do
         expect(response).to have_http_status(422)
       end
     end
-
   end
 end

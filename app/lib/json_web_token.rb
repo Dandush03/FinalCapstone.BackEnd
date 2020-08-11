@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # app/lib/json_web_token.rb
 class JsonWebToken
   # secret to encode and decode token
