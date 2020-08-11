@@ -12,13 +12,6 @@ module Api
     def create
       search_active = current_user.tasks.where(end: nil).first
       task = current_user.tasks.new(permitted_create_params)
-      puts 'test'
-      puts 'test'
-      puts 'test'
-      puts permitted_create_params
-      puts 'test'
-      puts 'test'
-      puts 'test'
       task.save if search_active.nil?
       render json: nil, status: :ok
     end
@@ -32,6 +25,13 @@ module Api
     def search_by_category
       tasks = current_user.tasks.where(search_params_scope)
       remove_values = %i[created_at updated_at user_id]
+      puts 'tests'
+      puts 'tests'
+      puts 'tests'
+      puts 'tests'
+      puts 'tests'
+      puts 'tests'
+      puts 'tests'
       render json: tasks.except(remove_values), status: :ok
     end
 
