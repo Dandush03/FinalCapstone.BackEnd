@@ -25,13 +25,6 @@ module Api
     def search_by_category
       tasks = current_user.tasks.where(search_params_scope)
       remove_values = %i[created_at updated_at user_id]
-      puts 'tests'
-      puts 'tests'
-      puts 'tests'
-      puts 'tests'
-      puts 'tests'
-      puts 'tests'
-      puts 'tests'
       render json: tasks.except(remove_values), status: :ok
     end
 
