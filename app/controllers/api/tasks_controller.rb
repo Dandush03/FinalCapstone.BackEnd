@@ -19,13 +19,6 @@ module Api
     def update
       task = current_user.tasks.find(params[:id])
       task.end = Time.at(permitted_update_params[:end].to_i / 1000)
-      puts 'test'
-      puts 'test'
-      puts 'test'
-      puts tasks.inspect
-      puts task.valid?
-      puts 'test'
-      puts 'test'
       task.save
     end
 
