@@ -19,6 +19,13 @@ module Api
     def update
       task = current_user.tasks.find(params[:id])
       task.end = Time.at(permitted_update_params[:end].to_i / 1000)
+      puts 'test'
+      puts 'test'
+      puts 'test'
+      puts tasks.inspect
+      puts task.valid?
+      puts 'test'
+      puts 'test'
       task.save
     end
 
@@ -30,13 +37,6 @@ module Api
 
     def searcher
       tasks = current_user.tasks.where(end: nil).first
-      puts 'test'
-      puts 'test'
-      puts 'test'
-      puts tasks
-      puts 'test'
-      puts 'test'
-      puts 'test'
       render json: tasks, status: :ok
     end
 
