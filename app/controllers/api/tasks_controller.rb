@@ -30,6 +30,13 @@ module Api
 
     def searcher
       tasks = current_user.tasks.where(end: nil).first
+      puts 'test'
+      puts 'test'
+      puts 'test'
+      puts tasks
+      puts 'test'
+      puts 'test'
+      puts 'test'
       render json: tasks, status: :ok
     end
 
