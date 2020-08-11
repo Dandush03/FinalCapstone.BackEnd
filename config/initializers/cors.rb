@@ -8,10 +8,10 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
    allow do
-     origins 'https://dl-final-webapp.herokuapp.com/'
+    origins 'https://dl-final-webapp.herokuapp.com/'
 
-     resource '/api/*',
-       headers: :any,
-       methods: [:get, :post, :put, :patch]
+    resource '/api/*',
+      headers: :any,
+      methods: [:get, :post, :put, :patch]
    end
 end
