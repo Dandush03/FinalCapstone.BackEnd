@@ -4,8 +4,9 @@ RSpec.describe ApplicationController, type: :controller do
   # create test user
   let!(:user) { create(:user) }
   # set headers for authorization
-  let(:headers) { { 'Authorization' => token_generator(user.id) } }
+  let(:headers) { { 'Authorization' => token_generator(user.id, '0.0.0.0') } }
   let(:invalid_headers) { { 'Authorization' => nil } }
+  let(:invalid_headers_by_ip) { { 'Authorization' => token_generator(user.id, '1.1.1.1') } }
 
   describe '#authorize_request' do
     context 'when auth token is passed' do
@@ -25,6 +26,17 @@ RSpec.describe ApplicationController, type: :controller do
       it 'raises MissingToken error' do
         expect { subject.instance_eval { authorize_request } }
           .to raise_error(ExceptionHandler::MissingToken, /Missing token/)
+      end
+    end
+
+    context 'when auth token has wrong IP' do
+      before do
+        allow(request).to receive(:headers).and_return(invalid_headers_by_ip)
+      end
+
+      it 'raises InvalidIp error' do
+        expect { subject.instance_eval { authorize_request } }
+          .to raise_error(ExceptionHandler::InvalidIp, /Invalid token/)
       end
     end
   end

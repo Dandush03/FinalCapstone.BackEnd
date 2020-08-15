@@ -12,7 +12,15 @@ class Message
     'Invalid token'
   end
 
+  def self.invalid_ip
+    'Invalid token'
+  end
+
   def self.missing_token
+    'Missing token'
+  end
+
+  def self.missing_id
     'Missing token'
   end
 

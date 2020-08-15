@@ -9,6 +9,6 @@ class ApplicationController < ActionController::API
 
   # Check for valid request token and return user
   def authorize_request
-    @current_user = AuthorizeApiRequest.new(request.headers).call[:user]
+    @current_user = AuthorizeApiRequest.new(request.headers, request.ip).call[:user]
   end
 end
