@@ -5,6 +5,7 @@ class User < ApplicationRecord
 
   # Model associations
   has_many :tasks, foreign_key: :user_id
+  has_many :tokens, dependent: :destroy
 
   # Validations
   validates :full_name, presence: true, length: { maximum: 50 }
