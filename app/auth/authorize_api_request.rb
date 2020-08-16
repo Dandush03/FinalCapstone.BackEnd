@@ -24,6 +24,7 @@ class AuthorizeApiRequest
 
     @current_user ||= auth_token.user if auth_token
     raise(ExceptionHandler::InvalidTokenAge, Message.invalid_token_age) unless token_valid?
+
     current_user
     # handle user not found
   rescue ActiveRecord::RecordNotFound => e
@@ -41,11 +42,11 @@ class AuthorizeApiRequest
   def auth_token
     @decoded_token = decoded_auth_token[:token]
     token = Token.find_by_token(decoded_token)
-    
+
     raise(ExceptionHandler::InvalidToken, Message.invalid_token) unless token
 
     raise(ExceptionHandler::InvalidIp, Message.invalid_ip) if token.request_ip != request_ip
-    
+
     token
   end
 
