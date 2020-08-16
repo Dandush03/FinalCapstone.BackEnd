@@ -8,7 +8,7 @@ class AuthorizeApiRequest
   # Service entry point - return valid user object
   def call
     {
-      user: user
+      user: user_authentication
     }
   end
 
@@ -16,13 +16,12 @@ class AuthorizeApiRequest
 
   attr_reader :headers, :request_ip
 
-  def user
+  def user_authentication
     # check if user_ip = request_ip
-    
+
     # check if user is in the database
     # memoize user object
-    auth_ip
-    @user ||= User.find(decoded_auth_token[:user_id]) if decoded_auth_token
+    @user ||= auth_token.user if auth_token
     # handle user not found
   rescue ActiveRecord::RecordNotFound => e
     # raise custom error
@@ -32,10 +31,13 @@ class AuthorizeApiRequest
     )
   end
 
-  def auth_ip
-    return if decoded_auth_token[:user_ip] == request_ip
+  def auth_token
+    token = Token.find_by_token(decoded_auth_token[:token])
+    raise(ExceptionHandler::InvalidToken, Message.invalid_token) unless token
 
-    raise(ExceptionHandler::InvalidIp, Message.invalid_ip)
+    raise(ExceptionHandler::InvalidIp, Message.invalid_ip) if token.request_ip != request_ip
+    
+    token
   end
 
   # decode authentication token

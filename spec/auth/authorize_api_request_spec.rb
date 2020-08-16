@@ -34,7 +34,7 @@ RSpec.describe AuthorizeApiRequest, type: :request do
       context 'when invalid token by user_id' do
         subject(:invalid_request_obj) do
           # custom helper method `token_generator`
-          described_class.new('Authorization' => token_generator(5, ''))
+          described_class.new('Authorization' => invalid_token_generator(5, '12'))
         end
 
         it 'raises an InvalidToken error' do
@@ -46,7 +46,7 @@ RSpec.describe AuthorizeApiRequest, type: :request do
       context 'when invalid token by request_ip' do
         subject(:invalid_request_obj) do
           # custom helper method `token_generator`
-          described_class.new('Authorization' => token_generator(5, '1'))
+          described_class.new('Authorization' => token_generator(user.id, '1'))
         end
 
         it 'raises an InvalidToken error' do
