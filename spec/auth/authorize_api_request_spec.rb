@@ -56,13 +56,15 @@ RSpec.describe AuthorizeApiRequest, type: :request do
       end
 
       context 'when invalid token by old token' do
-        subject(:invalid_request_obj) do
           # custom helper method `token_generator`
-          described_class.new('Authorization' => token_generator(user.id, '127.0.0.1'))
-        end
-
+          let(:header_new) { { 'Authorization' => token_generator(user.id, '127.0.0.1') } }
+          let(:header) { { 'Authorization' => token_generator(user.id, '127.0.0.123') } }
+          subject(:request_obj) { described_class.new(header,'127.0.0.123') }
+          subject(:request_obj_new) { described_class.new(header_new,'127.0.0.1') }
+        
         it 'raises an InvalidToken error' do
-          token_generator(user.id, '127.0.0.1')
+          request_obj.call 
+          request_obj_new.call
           expect { request_obj.call }
             .to raise_error(ExceptionHandler::InvalidTokenAge, /Invalid token/)
         end

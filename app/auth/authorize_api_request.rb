@@ -35,12 +35,13 @@ class AuthorizeApiRequest
   end
 
   def token_valid?
-    current_user.tokens.first.token == decoded_token
+    current_user.tokens.order('created_at desc').first.token == decoded_token
   end
 
   def auth_token
     @decoded_token = decoded_auth_token[:token]
     token = Token.find_by_token(decoded_token)
+    
     raise(ExceptionHandler::InvalidToken, Message.invalid_token) unless token
 
     raise(ExceptionHandler::InvalidIp, Message.invalid_ip) if token.request_ip != request_ip
