@@ -11,6 +11,7 @@ module ControllerSpecHelper
   # Grant Access from user id
   def token_generator(user_id, user_ip)
     return unless user_id
+
     user = User.find(user_id)
 
     access_token = user.tokens.create(token: token_creator, request_ip: user_ip)

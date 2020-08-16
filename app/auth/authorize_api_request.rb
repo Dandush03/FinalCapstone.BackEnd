@@ -14,14 +14,17 @@ class AuthorizeApiRequest
 
   private
 
-  attr_reader :headers, :request_ip
+  attr_reader :headers, :request_ip, :current_user, :decoded_token
 
   def user_authentication
     # check if user_ip = request_ip
 
     # check if user is in the database
     # memoize user object
-    @user ||= auth_token.user if auth_token
+
+    @current_user ||= auth_token.user if auth_token
+    raise(ExceptionHandler::InvalidTokenAge, Message.invalid_token_age) unless token_valid?
+    current_user
     # handle user not found
   rescue ActiveRecord::RecordNotFound => e
     # raise custom error
@@ -31,8 +34,13 @@ class AuthorizeApiRequest
     )
   end
 
+  def token_valid?
+    current_user.tokens.first.token == decoded_token
+  end
+
   def auth_token
-    token = Token.find_by_token(decoded_auth_token[:token])
+    @decoded_token = decoded_auth_token[:token]
+    token = Token.find_by_token(decoded_token)
     raise(ExceptionHandler::InvalidToken, Message.invalid_token) unless token
 
     raise(ExceptionHandler::InvalidIp, Message.invalid_ip) if token.request_ip != request_ip

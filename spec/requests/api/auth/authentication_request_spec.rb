@@ -63,7 +63,7 @@ RSpec.describe 'Authentication', type: :request do
     end
     context 'when valid request' do
       before { post '/api/auth/signup', params: valid_attributes.to_json, headers: headers }
-      
+
       it 'creates a new user' do
         expect(response).to have_http_status(201)
       end

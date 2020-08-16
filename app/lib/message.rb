@@ -16,6 +16,10 @@ class Message
     'Invalid token'
   end
 
+  def self.invalid_token_age
+    'Invalid token'
+  end
+
   def self.missing_token
     'Missing token'
   end
