@@ -5,14 +5,14 @@ module Api
       skip_before_action :authorize_request, only: %i[authenticate create]
       def create
         user = User.create!(user_params)
-        auth_token = AuthenticateUser.new(user.email, user.password).call
+        auth_token = AuthenticateUser.new(user.email, user.password, request.ip).call
         response = { message: Message.account_created, auth_token: auth_token }
         render json: response, status: :created
       end
 
       def authenticate
         auth_token =
-          AuthenticateUser.new(auth_params[:login], auth_params[:password]).call
+          AuthenticateUser.new(auth_params[:login], auth_params[:password], request.ip).call
         render json: { auth_token: auth_token }
       end
 
